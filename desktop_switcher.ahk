@@ -42,7 +42,7 @@ mapDesktopsFromRegistry()
         if ErrorLevel {
             RegRead, CurrentDesktopId, HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SessionInfo\%SessionId%\VirtualDesktops, CurrentVirtualDesktop
         }
-        
+
         if (CurrentDesktopId) {
             IdLength := StrLen(CurrentDesktopId)
         }
@@ -146,14 +146,16 @@ switchDesktopToRight()
 {
     global CurrentDesktop, DesktopCount
     updateGlobalVariables()
-    _switchDesktopToTarget(CurrentDesktop == DesktopCount ? 1 : CurrentDesktop + 1)
+    if (CurrentDesktop < DesktopCount)
+        _switchDesktopToTarget(CurrentDesktop + 1)
 }
 
 switchDesktopToLeft()
 {
     global CurrentDesktop, DesktopCount
     updateGlobalVariables()
-    _switchDesktopToTarget(CurrentDesktop == 1 ? DesktopCount : CurrentDesktop - 1)
+    if (CurrentDesktop > 1)
+        _switchDesktopToTarget(CurrentDesktop - 1)
 }
 
 focusTheForemostWindow(targetDesktop) {
